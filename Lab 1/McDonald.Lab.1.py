@@ -3,7 +3,7 @@
 ####### CS 240
 ####### Lab 1: Pygame
 
-####### Program creates my artistic rendition of an Olympic Flag printed on a light blue background. 
+####### Program creates my artistic rendition of an Olympic Flag printed on a light blue background.
 
 import pygame
 
@@ -13,12 +13,16 @@ pygame.init()
 width, height = 640, 480
 screen = pygame.display.set_mode((width, height))
 
+## Create flag parameters
+flag_width, flag_height = 360, 240
+flag = pygame.Rect((width - flag_width)/2, (height - flag_height)/2, flag_width, flag_height)
+
 ## Main Game Loop, continues until user exits
 run = True
 while run:
     ## Draws an Olympic Flag on a light blue background
     screen.fill((0, 191,255))                                       ## Deep Sky Blue background
-    pygame.draw.rect(screen, (255, 255, 255), (120, 120, 400, 240)) ## Draws flag
+    pygame.draw.rect(screen, (255, 255, 255), flag)                 ## Draws flag
     pygame.draw.circle(screen, (0, 0, 205), (200, 200), 50, 5)      ## Draws First Circle - Blue
     pygame.draw.circle(screen, (255, 255, 0), (255, 260), 50, 5)    ## Draws Second Circle - Yellow
     pygame.draw.circle(screen, (0, 0, 0), (310, 200), 50, 5)        ## Draws Third Circle - Black
