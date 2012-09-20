@@ -3,6 +3,8 @@
 ####### CS 240
 ####### Lab 1: Pygame
 
+####### Program creates my artistic rendition of an Olympic Flag printed on a light blue background. 
+
 import pygame
 
 pygame.init()
