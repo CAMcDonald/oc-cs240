@@ -18,7 +18,9 @@ def init():
 
 def main(screen):
     horizontal, vertical = 1, 1
-    flag1 = flag.Flag(120, 120)
+    flag1 = flag.Flag(0, 0)
+    flag2 = flag.Flag(240,240)
+
     
 
 
@@ -29,6 +31,7 @@ def main(screen):
         ## Draws an Olympic Flag on a light blue background
         screen.fill((0, 191,255))                                               ## Deep Sky Blue background
         flag1.draw(screen)                                                      ## Draws Flag
+        flag2.draw(screen)
         pygame.display.flip()                                                   ## Flips to the surface
        
 
