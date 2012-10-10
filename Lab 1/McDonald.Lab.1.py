@@ -17,10 +17,12 @@ def init():
     return pygame.display.set_mode((width, height))
 
 def main(screen):
+    ## Create clock
+    clock = pygame.time.Clock()
+
     horizontal, vertical = 1, 1
     flag1 = flag.Flag(0, 0)
-    flag2 = flag.Flag(240,240)
-
+    flag2 = flag.Flag(100, 200)
     
 
 
@@ -31,7 +33,9 @@ def main(screen):
         ## Draws an Olympic Flag on a light blue background
         screen.fill((0, 191,255))                                               ## Deep Sky Blue background
         flag1.draw(screen)                                                      ## Draws Flag
+        flag1.update(screen)
         flag2.draw(screen)
+        flag2.update(screen)
         pygame.display.flip()                                                   ## Flips to the surface
        
 
@@ -40,6 +44,7 @@ def main(screen):
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
                 run = False 
             
-
+        clock.tick(50)
+        
 screen = init()
 main(screen)

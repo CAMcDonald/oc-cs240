@@ -35,39 +35,34 @@ class Rect(object):
         return (self.top, self.left)
 
 class Flag(object):
-    """A Class that shows and olympic flag"""
-    def __init__(self, left, top):
-        self.left = left
-        self.top = top
-        self.width = 400
-        self.height = 240
+    """A class that shows an olympic flag and is pygame and pygame.Rect aware"""
+    def __init__(self, left, top, width = 400, height = 240):
+        self.rect = pygame.Rect(left, top, width, height)
+        self.horizontal = 1
+        self.vertical = 1
+        ## Draws flag
+        self.image = pygame.Surface(self.rect.size)
+        self.image.fill(white)
+
+        ## Draws rings on flag
+        rings = [((blue), (80, 80)), ((yellow), (135, 140)), ((black), (190, 80)), ((green), (245, 140)), ((red), (295, 80))] 
+        for ring in rings:
+            pygame.draw.circle(self.image, ring[0], ring[1], 50, 5)
+
 
     def draw(self, screen):
-        """Draws an olympic flag at left and top locations"""
-        ## Draws an Olympic Flag 
-        pygame.draw.rect(screen, white, (self.left, self.top, self.width, self.height) )
-        pygame.draw.circle(screen, blue, (self.left + 80, self.top + 80), 50, 5)              ## Draws First Circle - Blue
-        pygame.draw.circle(screen, yellow, (self.left + 135, self.top + 140), 50, 5)          ## Draws Second Circle - Yellow
-        pygame.draw.circle(screen, black, (self.left + 190, self.top + 80), 50, 5)            ## Draws Third Circle - Black
-        pygame.draw.circle(screen, green, (self.left + 245, self.top + 140), 50, 5)           ## Draws Fourth Circle - Green
-        pygame.draw.circle(screen, red, (self.left + 295, self.top + 80), 50, 5)              ## Draws Fifth Circle - Red
+        ## Draws flag as single image. 
+        screen.blit(self.image, self.rect)
 
-class Flag2(object):
-    """A class that shows an olympic flag and is pygame and Rect aware"""
-    def __init__(self, left, top):
-        self.rect = Rect(left, top, 400, 240)
-
-    def draw(self, screen):
-        """Draws an olympic flag at left and top locations"""
-        ## Draws an Olympic Flag 
-        pygame.draw.rect(screen, white, self.rect)
-        rect = self.rect.move(80, 80)
-        pygame.draw.circle(screen, blue, ring.top_left(), 50, 5)
-        rect = self.rect.move(135, 140)
-        pygame.draw.circle(screen, yellow, ring.top_left(), 50, 5)
-        rect = self.rect.move(190, 80)
-        pygame.draw.circle(screen, black, ring.top_left(), 50, 5)
-        rect = self.rect.move(245, 140)
-        pygame.draw.circle(screen, blue, ring.top_left(), 50, 5)
-        rect = self.rect.move(295, 80)
-        pygame.draw.circle(screen, blue, ring.top_left(), 50, 5)
+    def update(self, screen):
+        screen_width, screen_height = screen.get_size()
+        self.rect.left += self.horizontal
+        self.rect.top += self.vertical
+        if self.rect.right > screen_width:
+            self.horizontal = -self.horizontal
+        elif self.rect.left < 0:
+            self.horizontal = -self.horizontal
+        if self.rect.top < 0:
+            self.vertical = -self.vertical
+        elif self.rect.bottom > screen_height:
+            self.vertical = -self.vertical
