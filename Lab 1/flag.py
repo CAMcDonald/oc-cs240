@@ -34,7 +34,7 @@ class Rect(object):
     def top_left(self):
         return (self.top, self.left)
 
-class Flag(object):
+class Olympic_Flag(object):
     """A class that shows an olympic flag and is pygame and pygame.Rect aware"""
     def __init__(self, left, top, width = 400, height = 240):
         self.rect = pygame.Rect(left, top, width, height)
@@ -52,6 +52,38 @@ class Flag(object):
 
     def draw(self, screen):
         ## Draws flag as single image. 
+        screen.blit(self.image, self.rect)
+
+    def update(self, screen):
+        screen_width, screen_height = screen.get_size()
+        self.rect.left += self.horizontal
+        self.rect.top += self.vertical
+        if self.rect.right > screen_width:
+            self.horizontal = -self.horizontal
+        elif self.rect.left < 0:
+            self.horizontal = -self.horizontal
+        if self.rect.top < 0:
+            self.vertical = -self.vertical
+        elif self.rect.bottom > screen_height:
+            self.vertical = -self.vertical
+
+class Ball(object):
+    """Draws a ball that is pygame and pygame.Rect aware"""
+    def __init__(self, x, y, radius):
+        self.rect = pygame.Rect(0, 0, 2*radius, 2*radius)
+        self.rect.center = (x, y)
+        self.horizontal = 5
+        self.vertical = 5
+        ## Draws ball on rectangle
+        self.image = pygame.Surface(self.rect.size)
+        self.image.fill((0, 191, 255))
+
+        ## Draws ball on rectangle surface
+        pygame.draw.circle(self.image, black, (radius, radius), 50)
+
+
+    def draw(self, screen):
+        ## Draws ball as single image. 
         screen.blit(self.image, self.rect)
 
     def update(self, screen):
