@@ -98,3 +98,10 @@ class Ball(object):
             self.vertical = -self.vertical
         elif self.rect.bottom > screen_height:
             self.vertical = -self.vertical
+
+class Picture(object):
+    """Inserts a picture of Michael Phelps in the background"""
+    def insert(self, screen):
+        ## Inserts the picture into the file
+        Michael = pygame.image.load(Michael.jpg).convert_alpha()
+        Michael_rect = Michael.get_rect()

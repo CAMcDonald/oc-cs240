@@ -43,7 +43,7 @@ def main(screen):
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
                 run = False 
             
-        clock.tick(50)
+        clock.tick(100)
 
 screen = init()
 main(screen)
