@@ -53,16 +53,27 @@ def load_ship():
 	ship.set_colorkey((191, 220, 191))
 	return ship
 
+def load_UFO():
+	UFO = pygame.image.load('UFO_2.jpg').convert()
+	raw_size = UFO.get_size()
+
+	UFO = UFO.subsurface((0, 0, raw_size[0]-25, raw_size[1]-75))
+	new_size = UFO.get_size()
+
+	UFO.set_colorkey((0, 0, 0))
+	return UFO
 
 def main(screen):
 	running = True
 
 	ship = load_ship()
+	UFO = load_UFO()
 	space = build_space(screen)
 
 	while running:
 		screen.blit(space, (0, 0))
 		screen.blit(ship, (100, 100))
+		screen.blit(UFO, (400, 250))
 		pygame.display.flip()
 
 		for event in pygame.event.get():
