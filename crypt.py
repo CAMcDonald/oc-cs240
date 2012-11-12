@@ -22,3 +22,10 @@ message2 = translate_message(message, 4)
 print message2
 message3 = translate_message(message2, -4)
 print message3
+
+from string import maketrans
+
+def trans_message(message,shift):
+    alpha = 'abcdefghijklmnopqrstuvwxyz'
+    rot = alpha[shift:] + alpha[:shift]
+    ttab = maketrans(alpha + )

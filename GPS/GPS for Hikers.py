@@ -5,6 +5,13 @@
 
 ####### Program creates a GPS Unit
 
+import random
+
+def gpsGetLongLat():
+    longitude = 0.0
+    latitude = 0.0
+    return longitude, latitude
+
 class Waypoint(object):
     class_var = None
     def __init__(self, latitude, longitude, name = ''):
