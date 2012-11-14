@@ -5,73 +5,6 @@ import pygame
 
 width, height = 800, 600
 
-class NewShip(object):
-	def __init__(self):
-		self.image = pygame.image.load('ship.png').convert()
-		self.x = 100
-		self.y = 0
-		self.size = self.image.get_size()
-		colorkey = self.image.get_at((self.size[0] -1, self.size[1] - 1))
-		self.frame =  0
-
-		## Hunting for the width of the engine parts
-		for i in range(self.size[0]):
-			color = self.image.get_at((i, 0))
-			if color == colorkey:
-				break
-		height = i
-
-		self.engines = self.image.subsurface((0, 0, width, height)).copy()
-
-		## Finding the horizontal location of engine gap
-		seen_ck = False
-		past_grid = False
-		for i in range(self.size[0]):
-			color = self.image.get_at((i, 50))
-			if color == colorkey:
-				seen_ck = True
-				if past_grid:
-					break
-
-			if color != colorkey and seen_ck:
-				past_grid = True
-		gap_x = i
-
-		## Finding the vertical location of engine gap
-		seen_ship = False
-		for i in range(self.size[1]):
-			color - self.image.get_at((gap_x + 1, i))
-			if color != colorkey:
-				seen_ship = True
-			if color == colorke and seen_ship:
-				break
-		gap_y = i
-
-		self.image.set_colorkey(colorkey)
-		print colorkey
-
-	def draw(self, screen):
-		screen.blit(self.image, (self.x, self.y))
-
-	def update(self):
-		engine_part = self.frame / 20
-		width = 24
-		height = 28
-		row = engine_part / 4 * height
-		col = (engine_part % 4) * width
-		engine =self.engines.subsurface((col, row, width, height))
-
-		gap_x, gap_y = 156, 28
-		self.image.blit(engine, (gap_x, gap_y))
-
-		self.frame = (self.fram +1) % 160
-		return 
-		d = random.randint(1,8)
-		if d < 5:
-			self.x += 2
-		else:
-			self.x += -2
-		self.y += 1
 
 def init():
 	width, height = 800, 600
@@ -122,6 +55,85 @@ def load_ship():
 	ship.set_colorkey((191, 220, 191))
 	return ship
 
+class NewShip(object):
+	def __init__(self):
+		self.image = pygame.image.load('ship.png').convert()
+		self.x = 100
+		self.y = 0
+		self.size = self.image.get_size()
+		colorkey = self.image.get_at((self.size[0] -1, self.size[1] - 1))
+		self.frame =  0
+
+		## Hunting for the width of the engine parts
+		for i in range(self.size[0]):
+			color = self.image.get_at((i, 0))
+			if color == colorkey:
+				break
+		width = i
+
+		## Hunting for the height of the engine parts
+		for i in range(self.size[1]):
+			color = self.image.get_at((0, i))
+			if color == colorkey:
+				break
+		height = i 
+
+		self.engines = self.image.subsurface((0, 0, width, height)).copy()
+
+		## Finding the horizontal location of engine gap
+		seen_ck = False
+		past_grid = False
+		for i in range(self.size[0]):
+			color = self.image.get_at((i, 50))
+			if color == colorkey:
+				seen_ck = True
+				if past_grid:
+					break
+
+			if color != colorkey and seen_ck:
+				past_grid = True
+		gap_x = i
+
+		## Finding the vertical location of engine gap
+		seen_ship = False
+		for i in range(self.size[1]):
+			color - self.image.get_at((gap_x + 1, i))
+			if color != colorkey:
+				seen_ship = True
+			if color == colorkey and seen_ship:
+				break
+		gap_y = i
+
+		self.image.set_colorkey(colorkey)
+		print colorkey
+
+	def draw(self, screen):
+		screen.blit(self.image, (self.x, self.y))
+
+	def update(self):
+		f = self.frame / 2
+		if f < 8:
+			engine_part = f
+		else:
+			engine_part = 15 - f
+		width = 24
+		height = 28
+		row = engine_part / 4 * height
+		col = (engine_part % 4) * width
+		engine =self.engines.subsurface((col, row, width, height))
+
+		gap_x, gap_y = 156, 28
+		self.image.blit(engine, (gap_x, gap_y))
+
+		self.frame = (self.frame + 1) % 32
+		return 
+		d = random.randint(1,8)
+		if d < 5:
+			self.x += 2
+		else:
+			self.x += -2
+		self.y += 1
+
 def update(self):
 	engine_part = self.fram / 20
 	width = 24
@@ -145,10 +157,10 @@ def load_UFO():
 	UFO = pygame.image.load('UFO_2.jpg').convert()
 	raw_size = UFO.get_size()
 
-	UFO = UFO.subsurface((0, 0, raw_size[0]-25, raw_size[1]-75))
+	UFO = UFO.subsurface((0, 50, raw_size[0]-25, raw_size[1]-125))
 	new_size = UFO.get_size()
 
-	UFO.set_colorkey((0, 0, 0))
+	UFO.set_colorkey(UFO.get_at((0,0)))
 	return UFO
 
 def main(screen):
@@ -158,15 +170,19 @@ def main(screen):
 	UFO = load_UFO()
 	space = build_space(screen)
 
+	clock = pygame.time.Clock()
+
 	while running:
 		screen.blit(space, (0, 0))
-		screen.blit(ship, (100, 100))
+		ship.draw(screen)
+		ship.update()
 		screen.blit(UFO, (400, 250))
 		pygame.display.flip()
 
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
 				running = False
+		clock.tick(20)
 
 screen = init()
 main(screen)
