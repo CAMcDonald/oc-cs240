@@ -3,12 +3,15 @@
 import random
 import pygame
 
+window_title = "Sky of Stars"
 width, height = 800, 600
 
 
 def init():
 	width, height = 800, 600
 	pygame.init()
+
+	pygame.display.set_caption(window_title)
 
     ## Set Screen Size
 	return pygame.display.set_mode((width, height))
@@ -43,17 +46,6 @@ def build_space(screen):
 	
 	draw_space(space, stars)
 	return space
-
-def load_ship():
-	ship = pygame.image.load('ship.png').convert()
-	raw_size = ship.get_size()
-
-	ship = ship.subsurface((0, 0, raw_size[0]/2, raw_size[1]/2))
-	new_size = ship.get_size()
-
-	ship = ship.subsurface((new_size[0]/2 - 10, new_size[1]/2, new_size[0]/2 + 10, new_size[1]/2))
-	ship.set_colorkey((191, 220, 191))
-	return ship
 
 class NewShip(object):
 	def __init__(self):
@@ -137,7 +129,7 @@ class NewShip(object):
 		self.y += 1
 
 def update(self):
-	engine_part = self.fram / 20
+	engine_part = self.frame / 20
 	width = 24
 	height = 28
 	row = engine_part / 4 * height
@@ -184,6 +176,7 @@ def main(screen):
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
 				running = False
+
 		clock.tick(20)
 
 screen = init()
