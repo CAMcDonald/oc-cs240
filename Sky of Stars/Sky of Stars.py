@@ -57,7 +57,9 @@ def load_ship():
 
 class NewShip(object):
 	def __init__(self):
-		self.image = pygame.image.load('ship.png').convert()
+		image = pygame.image.load('ship.png').convert()
+		raw_size = image.get_size()
+		self.image = image.subsurface((110, 0, raw_size[0] - 110, raw_size[1] - 110))
 		self.x = 100
 		self.y = 0
 		self.size = self.image.get_size()
@@ -65,26 +67,26 @@ class NewShip(object):
 		self.frame =  0
 
 		## Hunting for the width of the engine parts
-		for i in range(self.size[0]):
-			color = self.image.get_at((i, 0))
+		for i in range(raw_size[0]):
+			color = image.get_at((i, 0))
 			if color == colorkey:
 				break
 		width = i
 
 		## Hunting for the height of the engine parts
-		for i in range(self.size[1]):
-			color = self.image.get_at((0, i))
+		for i in range(raw_size[1]):
+			color = image.get_at((0, i))
 			if color == colorkey:
 				break
 		height = i 
 
-		self.engines = self.image.subsurface((0, 0, width, height)).copy()
+		self.engines = image.subsurface((0, 0, width, height)).copy()
 
 		## Finding the horizontal location of engine gap
 		seen_ck = False
 		past_grid = False
-		for i in range(self.size[0]):
-			color = self.image.get_at((i, 50))
+		for i in range(raw_size[0]):
+			color = image.get_at((i, 50))
 			if color == colorkey:
 				seen_ck = True
 				if past_grid:
@@ -92,12 +94,12 @@ class NewShip(object):
 
 			if color != colorkey and seen_ck:
 				past_grid = True
-		gap_x = i
+		gap_x = i - 110
 
 		## Finding the vertical location of engine gap
 		seen_ship = False
-		for i in range(self.size[1]):
-			color - self.image.get_at((gap_x + 1, i))
+		for i in range(raw_size[1]):
+			color - image.get_at((gap_x + 1, i))
 			if color != colorkey:
 				seen_ship = True
 			if color == colorkey and seen_ship:
@@ -122,7 +124,7 @@ class NewShip(object):
 		col = (engine_part % 4) * width
 		engine =self.engines.subsurface((col, row, width, height))
 
-		gap_x, gap_y = 156, 28
+		gap_x, gap_y = 46, 28
 		self.image.blit(engine, (gap_x, gap_y))
 
 		self.frame = (self.frame + 1) % 32
@@ -157,10 +159,10 @@ def load_UFO():
 	UFO = pygame.image.load('UFO_2.jpg').convert()
 	raw_size = UFO.get_size()
 
-	UFO = UFO.subsurface((0, 50, raw_size[0]-25, raw_size[1]-125))
+	# UFO = UFO.subsurface((0, 50, raw_size[0], raw_size[1]))
 	new_size = UFO.get_size()
 
-	UFO.set_colorkey(UFO.get_at((0,0)))
+	UFO.set_colorkey(UFO.get_at((0,raw_size[1]-1)))
 	return UFO
 
 def main(screen):

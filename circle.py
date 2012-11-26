@@ -40,9 +40,9 @@ def main(screen):
 				if event.key == pygame.K_UP:
 					y += -10
 				if event.key == pygame.K_EQUALS and mods & pygame.KMOD_SHIFT:
-					d += 1
+					d += 5
 				if event.key == pygame.K_MINUS:
-					d += -1
+					d += -5
 					if d < 0:
 						d = 0
 				if event.key == pygame.K_r:
