@@ -19,11 +19,10 @@ class Waypoint(object):
         self.longitude = longitude
         self.name = name
 
-
 class Path(object):
-    def __init__(self, name):
+    def __init__(self, name = ''):
         self.waypoints = []
-        self.name = ''
+        self.name = name
 
     def add_waypoint(self, waypoint):
         self.waypoints.append(waypoint)
