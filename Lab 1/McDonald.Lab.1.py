@@ -21,7 +21,7 @@ def main(screen):
     clock = pygame.time.Clock()
 
     horizontal, vertical = 1, 1
-    flag1 = flag.Olympic_Flag(0, 0)
+    flag1 = flag.Olympic_Flag(50, 50)
     ball = flag.Ball(120, 240, 50)
     
 
